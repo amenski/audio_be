@@ -1,7 +1,10 @@
 const Category = require('../models/category.model');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 exports.create = (data, callback) => {
     const category = new Category({
+        _id: new mongoose.Types.ObjectId(),
         title: data.title,
         url: data.url,
         description: data.description,
@@ -16,11 +19,13 @@ exports.create = (data, callback) => {
             return;
         }
         //search category and add this as child
-        Category.findById({_id: data.parentCategoryId}, function(err, catObj) {
-            if(err) callback(err);
-            console.log(catObj._id);
-            category.parentCategoryId = catObj._id;
-        });
+        if (data.parentCategoryId) {
+            Category.findById({ _id: data.parentCategoryId }, function (err, catObj) {
+                if (err) callback(err);
+                catObj.subCategories.push(category._id);
+                catObj.save();
+            });
+        }
 
         console.log('Category saved successfully.')
         callback(null, postData);
