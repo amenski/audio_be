@@ -38,3 +38,15 @@ exports.create = (data, callback) => {
         }
     });
 };
+
+//get post by id
+exports.get = (id, callback) => {
+    Post.findById({ _id: id }, function (err, document) {
+        if (err) {
+            console.log(err || 'Unable to fetch data.');
+            callback(err);
+            return;
+        }
+        callback(null, document);
+    });
+};

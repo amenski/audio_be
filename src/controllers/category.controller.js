@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     CategoryRepository.create(cat, function (err, cat) {
         if (err) {
             res.status(500);
-            res.send({ message: err || 'Unable to save.' });
+            res.send({ message: 'Unable to save.' });
             return;
         }
         res.status(201).json({ categoryId: cat._id });

@@ -16,32 +16,27 @@ exports.create = (req, res) => {
         categoryId: req.body.categoryId
     };
 
-    PostRepository.create(post, function(err, post) {
-        if(err) {
+    PostRepository.create(post, function (err, post) {
+        if (err) {
             res.status(500);
-            res.send({message: err || 'Unable to save.'});
+            res.send({ message: 'Unable to save.' });
             return;
         }
-        res.status(201).json({postId: post._id});
+        res.status(201).json({ postId: post._id });
     });
 };
 
-// exports.findByid = (req, res) => {
-//     const id = req.params.id;
-//     if (!id) {
-//         res.status(400).send({
-//             message: "Post id can not be empty."
-//         });
-//     }
+exports.get = (req, res) => {
+    const id = req.params.id;
+    if (!id) return res.status(400).send({ message: "Post id can not be empty." });
 
-//     Post.findByPk(id)
-//         .then(data => {
-//             res.send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: err.message || 'Internal server error.'
-//             });
-//         });
-// };
+    PostRepository.get(id, function (err, data) {
+        if (err) {
+            res.status(500);
+            res.send({ message: 'Unable to fetch data.' });
+            return;
+        }
+        res.status(201).json(data);
+    });
+};
 
