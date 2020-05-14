@@ -1,28 +1,29 @@
-const PostRepository = require('../repository/post.repository');
+const CategoryRepository = require('../repository/category.repository');
 
 
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.title || !req.body.url || !req.body.categoryId) {
+    if (!req.body.title) {
         res.status(400).send({
-            message: "Invalid input, please try again!"
+            message: "Invalid input, title can not be empty!"
         });
         return;
     }
 
-    const post = {
+    const cat = {
         title: req.body.title,
-        url: req.body.url,
-        categoryId: req.body.categoryId
+        description: req.body.description,
+        parentCategoryId: req.body.parentCategoryId,
+        thumbUrl: req.body.thumbUrl,
     };
 
-    PostRepository.create(post, function(err, post) {
-        if(err) {
+    CategoryRepository.create(cat, function (err, cat) {
+        if (err) {
             res.status(500);
-            res.send({message: err || 'Unable to save.'});
+            res.send({ message: err || 'Unable to save.' });
             return;
         }
-        res.status(201).json({postId: post._id});
+        res.status(201).json({ categoryId: cat._id });
     });
 };
 

@@ -1,29 +1,15 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const postSchema = new Schema({
+    title: String,
+    url: String,
+    thumbUrl: String,
+    description: String,
+    downloadPath: String,
+    isDownloaded: Boolean,
+    isOpened: Boolean,
+    createdAt: Date,
+    modifiedAt: { type: Date, default: Date.now() }
+}, {versionKey: false});
 
-module.exports = (sequelize, Sequelize) => {
-    const Post = sequelize.define('post', {
-        id: {
-            type: Sequelize.Number,
-            allowNull: false
-        },
-        title: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        url: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        thumbUrl: {
-            type: Sequelize.STRING,
-        },
-        description: {
-            type: Sequelize.STRING,
-        },
-        categoryId: {
-            type: Sequelize.Number,
-            allowNull: false
-        }
-    });
-
-    return Post;
-}
+module.exports = mongoose.model('Post', postSchema);

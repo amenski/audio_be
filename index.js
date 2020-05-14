@@ -1,19 +1,16 @@
 const express = require('express');
 const app = express();
 
+const router = express.Router();
 const bodyParser = require('body-parser');
 
 const db = require("./src/config");
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-});
+const routes = require('./src/routes');
 
 
 //read post body
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
-
-const postRoutes = require('./src/routes/post_route')(app);
 
 //middleware for log
 app.use(function(req, res, next) {
@@ -22,8 +19,8 @@ app.use(function(req, res, next) {
 });
 
 
-//register routes
-app.use('/api', postRoutes);
+//register all routes
+routes(app);
 
 
 const port = process.env.PORT || 4000;

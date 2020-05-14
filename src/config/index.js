@@ -1,24 +1,17 @@
-const Sequelize = require("sequelize");
-const config = {
-    username: 'postgres',
-    password: 'postgres',
-    database: 'audio_books',
-    server: 'localhost',
-    dialect: 'postgres',
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-      }
-}
+const mongoose = require('mongoose');
 
-const sequelize = new Sequelize(config);
+mongoose.connect("mongodb://localhost/audio_books", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log("Successfully connected to MongoDB."))
+  .catch(err => console.error("Connection error", err));
 
-const db = {};
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
-db.Post = require('../models/post.model')(sequelize, Sequelize);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-module.exports = db;
+
+module.exports = {
+  connection: db
+};
