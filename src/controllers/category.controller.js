@@ -27,22 +27,22 @@ exports.create = (req, res) => {
     });
 };
 
-// exports.findByid = (req, res) => {
-//     const id = req.params.id;
-//     if (!id) {
-//         res.status(400).send({
-//             message: "Post id can not be empty."
-//         });
-//     }
+// /category/:id
+exports.get = (req, res) => {
+    const id = req.params.id;
+    if (!id) {
+        res.status(400).send({
+            message: "Id can not be empty."
+        });
+    }
 
-//     Post.findByPk(id)
-//         .then(data => {
-//             res.send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: err.message || 'Internal server error.'
-//             });
-//         });
-// };
+    CategoryRepository.get(id, function (err, data) {
+        if (err) {
+            res.status(500);
+            res.send({ message: err || 'Unable to fetch data.' });
+            return;
+        }
+        res.status(201).json(data);
+    });
+};
 

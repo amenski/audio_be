@@ -38,3 +38,17 @@ exports.create = (data, callback) => {
         }
     });
 };
+
+//get category by id
+exports.get = (id, callback) => {
+    Category.findById({ _id: id })
+        .populate('subCategories')
+        .exec(function (err, category) {
+            if (err) {
+                console.log('Unable to fetch data.');
+                callback(err);
+                return;
+            }
+            callback(null, category);
+        });
+};
