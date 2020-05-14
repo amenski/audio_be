@@ -12,22 +12,29 @@ exports.create = (data, callback) => {
         thumbUrl: data.thumbUrl,
     });
 
-    category.save((err, postData) => {
+    category.save((err, product) => {
         if (err) {
             console.log(err || 'Unable to save category.');
             callback(err);
             return;
         }
-        //search category and add this as child
+        //search parent category and add this as child
         if (data.parentCategoryId) {
             Category.findById({ _id: data.parentCategoryId }, function (err, catObj) {
-                if (err) callback(err);
-                catObj.subCategories.push(category._id);
+                if (err) {
+                    console.log('Unable to save.');
+                    callback(err);
+                    return;
+                }
+                catObj.subCategories.push(product._id);
                 catObj.save();
-            });
-        }
 
-        console.log('Category saved successfully.')
-        callback(null, postData);
+                console.log('Category saved successfully.')
+                callback(null, product);
+            });
+        } else {
+            console.log('Category saved successfully.')
+            callback(null, product);
+        }
     });
 };
