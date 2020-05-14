@@ -5,6 +5,7 @@ const categorySchema = new Schema({
     _id: {type: Schema.Types.ObjectId},
     title: String,
     description: String,
+    parentCategoryId: Schema.Types.ObjectId,
     posts: [{type: Schema.Types.ObjectId, ref: 'Post'}],
     subCategories: [{type: Schema.Types.ObjectId, ref: 'Category'}],
     thumbUrl: String,

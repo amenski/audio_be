@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 exports.create = (data, callback) => {
+    const today = new Date().toUTCString();
     const category = new Category({
-        _id: new mongoose.Types.ObjectId(),
+        _id: mongoose.Types.ObjectId(),
         title: data.title,
         url: data.url,
         description: data.description,
-        // parentCategoryId: ,
+        parentCategoryId: data.parentCategoryId,
         thumbUrl: data.thumbUrl,
+        createdAt: today,
+        modifiedAt: today
     });
 
     category.save((err, product) => {
@@ -27,8 +30,7 @@ exports.create = (data, callback) => {
                     return;
                 }
                 catObj.subCategories.push(product._id);
-                catObj.save();
-
+                catObj.save((err, doc) => { if (err) { callback(err); return; } });
                 console.log('Category saved successfully.')
                 callback(null, product);
             });
