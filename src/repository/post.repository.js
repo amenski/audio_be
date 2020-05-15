@@ -1,5 +1,7 @@
+const fs = require('fs');
 const mongoose = require('mongoose');
 const Post = require('../models/post.model');
+const Constants = require('../config/constants');
 const Category = require('../models/category.model');
 
 exports.create = (data, callback) => {
@@ -58,14 +60,26 @@ exports.upload = (data, callback) => {
             callback(err);
             return;
         }
-        //update or send back error
-        doc.url = data.file.filename;
-        doc.save((err, prod) => { 
+        //update or send back an error
+        doc.url = buildFileName({title: doc.title, originalName: data.file.originalname});
+        doc.save((err, prod) => {
             if(err) {
                 callback(err);
                 return;
             }
+            //process file before exit
+            fs.writeFile(Constants.UPLOAD_FOLDER + prod.url, data.file.buffer, (err) => {
+                if(err) {
+                    callback(err);
+                    return;
+                }
+                //success
+                callback(null, {message: 'Post updated.'});
+            });
         });
-        callback(null, {message: 'Post updated.'});
     });
 };
+
+function buildFileName(body) {
+    return body.title + ' ' + body.originalName + '.mp3';
+}
