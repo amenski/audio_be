@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const multer = require('multer');
+const morgan = require('morgan');
 
 mongoose.connect("mongodb://localhost/audio_books", {
   useNewUrlParser: true,
@@ -11,7 +13,20 @@ mongoose.connect("mongodb://localhost/audio_books", {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+// File upload SET STORAGE
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+var upload = multer({ storage: storage })
 
 module.exports = {
-  connection: db
+  connection: db,
+  fileUpload: upload,
+  morgan: morgan
 };

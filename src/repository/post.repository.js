@@ -50,3 +50,15 @@ exports.get = (id, callback) => {
         callback(null, document);
     });
 };
+
+exports.upload = (data, callback) => {
+    Post.findById({_id: data.id}, function(err, doc) {
+        if(err) {
+            console.log(err || 'Post not found.');
+            callback(err);
+            return;
+        }
+        console.log('Post updated.');
+        callback(null, {message: 'Post updated.'});
+    });
+};
