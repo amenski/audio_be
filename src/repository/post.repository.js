@@ -58,7 +58,14 @@ exports.upload = (data, callback) => {
             callback(err);
             return;
         }
-        console.log('Post updated.');
+        //update or send back error
+        doc.url = data.file.filename;
+        doc.save((err, prod) => { 
+            if(err) {
+                callback(err);
+                return;
+            }
+        });
         callback(null, {message: 'Post updated.'});
     });
 };

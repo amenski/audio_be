@@ -16,10 +16,10 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // File upload SET STORAGE
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, 'uploads'); //TODO add category like uploads/{filksius}/chap1.mp3, OR uploads/{filksisu}-chap1.mp3
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    cb(null, file.originalname + '-' + Date.now())
   }
 });
 

@@ -44,7 +44,7 @@ exports.get = (req, res) => {
 exports.upload = (req, res) => {
     const id = req.params.id;
     const file = req.file;
-    // console.log(file);
+    console.log(file);
     if (!file) {
         res.status(400);
         res.send({ message: 'Please upload a file' });
