@@ -18,16 +18,14 @@ exports.create = (data, callback) => {
     post.save((err, postData) => {
         if (err) {
             console.log(err || 'Unable to save post.');
-            callback(err);
-            return;
+            return callback(err);
         }
 
         if (data.categoryId) {
             Category.findById({ _id: data.categoryId }, (err, doc) => {
                 if (err) {
                     console.log('Error getting Category: ' + data.categoryId);
-                    callback(err);
-                    return;
+                    return callback(err);
                 }
                 doc.posts.push(post._id);
                 doc.save((err, document) => { if (err) { callback(err); return; } });
@@ -46,8 +44,7 @@ exports.get = (id, callback) => {
     Post.findById({ _id: id }, function (err, document) {
         if (err) {
             console.log(err || 'Unable to fetch data.');
-            callback(err);
-            return;
+            return callback(err);
         }
         callback(null, document);
     });
@@ -57,21 +54,18 @@ exports.upload = (data, callback) => {
     Post.findById({_id: data.id}, function(err, doc) {
         if(err) {
             console.log(err || 'Post not found.');
-            callback(err);
-            return;
+            return callback(err);
         }
         //update or send back an error
         doc.url = buildFileName({title: doc.title, originalName: data.file.originalname});
         doc.save((err, prod) => {
             if(err) {
-                callback(err);
-                return;
+                return callback(err);
             }
             //process file before exit
             fs.writeFile(Constants.UPLOAD_FOLDER + prod.url, data.file.buffer, (err) => {
                 if(err) {
-                    callback(err);
-                    return;
+                    return callback(err);
                 }
                 //success
                 callback(null, {message: 'Post updated.'});

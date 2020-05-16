@@ -1,6 +1,5 @@
 const Category = require('../models/category.model');
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 exports.create = (data, callback) => {
     const today = new Date().toUTCString();
@@ -18,16 +17,14 @@ exports.create = (data, callback) => {
     category.save((err, product) => {
         if (err) {
             console.log(err || 'Unable to save category.');
-            callback(err);
-            return;
+            return callback(err);
         }
         //search parent category and add this as child
         if (data.parentCategoryId) {
             Category.findById({ _id: data.parentCategoryId }, function (err, catObj) {
                 if (err) {
                     console.log('Unable to save.');
-                    callback(err);
-                    return;
+                    return callback(err);
                 }
                 catObj.subCategories.push(product._id);
                 catObj.save((err, doc) => { if (err) { callback(err); return; } });
@@ -48,8 +45,7 @@ exports.get = (id, callback) => {
         .exec(function (err, category) {
             if (err) {
                 console.log('Unable to fetch data.');
-                callback(err);
-                return;
+                return callback(err);
             }
             callback(null, category);
         });
