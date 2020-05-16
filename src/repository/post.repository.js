@@ -11,6 +11,7 @@ exports.create = (data, callback) => {
         categoryId: data.categoryId,
         title: data.title,
         url: data.url,
+        donationUrl: data.donationUrl,
         createdAt: today,
         modifiedAt: today
     });

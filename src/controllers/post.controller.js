@@ -13,7 +13,8 @@ exports.create = (req, res) => {
     const post = {
         title: req.body.title,
         url: req.body.url,
-        categoryId: req.body.categoryId
+        categoryId: req.body.categoryId,
+        donationUrl: req.body.donationUrl
     };
 
     PostRepository.create(post, function (err, post) {

@@ -5,6 +5,7 @@ const postSchema = new Schema({
     title: String,
     url: String,
     thumbUrl: String,
+    donationUrl: String,
     description: String,
     downloadPath: String,
     isDownloaded: { type: Boolean, default: false },

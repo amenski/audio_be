@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "ded00d3f-ca64-49c3-991b-c0194883f827",
+		"name": "Audio Book",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET - Post by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/post/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"post",
+						":id"
+					],
+					"variable": [
+						{
+							"id": "94c7d6a3-b6f5-4859-a78c-2f6766b9bf50",
+							"key": "id",
+							"value": "5ebd72d338f31220f8ca00ef",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Create Category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"2 with parent 452d \",\n    \"description\": \"Aba Girma Wondimu from Radio Abyssinia\",\n    \"parentCategoryId\": \"5ebd5838214b0b53b09f452d\",\n    \"thumbUrl\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/category/create",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"category",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Category by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/category/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"category",
+						":id"
+					],
+					"variable": [
+						{
+							"id": "640090f1-1dd9-4ad4-8416-f7097d7359ed",
+							"key": "id",
+							"value": "5ebd383d9316d921b0cc55ab",
+							"type": "string"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Create Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"categoryId\": \"5ebd383d9316d921b0cc55ah\",\n    \"title\": \"this is title\",\n    \"url\": \"data.url\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/post/create",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"post",
+						"create"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
