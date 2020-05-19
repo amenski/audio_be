@@ -26,6 +26,13 @@ exports.create = (data, callback) => {
                     console.log('Unable to save.');
                     return callback(err);
                 }
+                //if category has posts, dont save
+                if(doc.posts.length > 0) {
+                    const message = 'Can\'t save post and subCategories together';
+                    console.log(message);
+                    return callback(message);
+                }
+
                 catObj.subCategories.push(product._id);
                 catObj.save((err, doc) => { if (err) { callback(err); return; } });
                 console.log('Category saved successfully.')
