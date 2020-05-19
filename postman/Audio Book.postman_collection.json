@@ -40,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"2 with parent 452d \",\n    \"description\": \"Aba Girma Wondimu from Radio Abyssinia\",\n    \"parentCategoryId\": \"5ebd5838214b0b53b09f452d\",\n    \"thumbUrl\": \"\"\n}",
+					"raw": "{\n    \"title\": \"Parent test\",\n    \"description\": \"Parent test\",\n    \"thumbUrl\": \"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -97,7 +97,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"categoryId\": \"5ebd383d9316d921b0cc55ah\",\n    \"title\": \"this is title\",\n    \"url\": \"data.url\"\n}",
+					"raw": "{\n    \"categoryId\": \"5ec3fa0d54fc4a290c793ce8\",\n    \"title\": \"Chapter 1\",\n    \"url\": \"data.url\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -114,6 +114,54 @@
 						"api",
 						"post",
 						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Get all Parent Categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/category/all/parents",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"category",
+						"all",
+						"parents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Get all After Date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/category/all/:date",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"category",
+						"all",
+						":date"
+					],
+					"variable": [
+						{
+							"key": "date",
+							"value": "2020-05-18"
+						}
 					]
 				}
 			},
