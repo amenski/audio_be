@@ -28,5 +28,6 @@ var upload = multer({ storage: storage })
 module.exports = {
   connection: db,
   fileUpload: upload,
-  morgan: morgan
+  morgan: morgan,
+  mongoose: mongoose
 };

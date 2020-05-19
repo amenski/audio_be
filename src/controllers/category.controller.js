@@ -42,7 +42,36 @@ exports.get = (req, res) => {
             res.send({ message: err || 'Unable to fetch data.' });
             return;
         }
-        res.status(201).json(data);
+        res.status(200).json(data);
     });
 };
 
+// GET - /category - Get all parent categories
+exports.getAllParents = (req, res) => {
+    CategoryRepository.getAllPrents(function (err, data) {
+        if (err) {
+            res.status(500);
+            res.send({ message: err || 'Unable to fetch data.' });
+            return;
+        }
+        res.status(200).json(data);
+    });
+};
+
+// GET - /category/:date - Get all categories after a date
+exports.getAllAfterDate = (req, res) => {
+    let date = req.params.date;
+    console.log(date);
+    if(!date) {
+        res.status(400).send({message: "Date can not be empty."});
+    }
+
+    CategoryRepository.getAllAfterDate(date, function (err, data) {
+        if (err) {
+            res.status(500);
+            res.send({ message: err || 'Unable to fetch data.' });
+            return;
+        }
+        res.status(200).json(data);
+    });
+};

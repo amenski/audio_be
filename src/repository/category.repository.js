@@ -1,5 +1,5 @@
 const Category = require('../models/category.model');
-const mongoose = require('mongoose');
+const { mongoose } = require('../config');
 
 exports.create = (data, callback) => {
     const today = new Date().toUTCString();
@@ -27,7 +27,7 @@ exports.create = (data, callback) => {
                     return callback(err);
                 }
                 //if category has posts, dont save
-                if(doc.posts.length > 0) {
+                if(catObj.posts.length > 0) {
                     const message = 'Can\'t save post and subCategories together';
                     console.log(message);
                     return callback(message);
@@ -48,10 +48,68 @@ exports.create = (data, callback) => {
 //get category by id
 exports.get = (id, callback) => {
     Category.findById({ _id: id })
-        .populate('subCategories')
+        .deepPopulate([
+            'subCategories',
+            'subCategories.subCategories',
+            'subCategories.subCategories.subCategories',
+            'subCategories.subCategories.subCategories.subCategories',
+            'posts',
+            'subCategories.posts',
+            'subCategories.subCategories.posts',
+            'subCategories.subCategories.subCategories.posts',
+            'subCategories.subCategories.subCategories.subCategories.posts',
+        ])
         .exec(function (err, category) {
             if (err) {
                 console.log('Unable to fetch data.');
+                return callback(err);
+            }
+            callback(null, category);
+        });
+};
+
+//get all parent category
+exports.getAllPrents = (callback) => {
+    Category.find({ "parentCategoryId": null })
+        .deepPopulate([
+            'subCategories',
+            'subCategories.subCategories',
+            'subCategories.subCategories.subCategories',
+            'subCategories.subCategories.subCategories.subCategories',
+            'posts',
+            'subCategories.posts',
+            'subCategories.subCategories.posts',
+            'subCategories.subCategories.subCategories.posts',
+            'subCategories.subCategories.subCategories.subCategories.posts',
+        ])
+        .exec(function (err, category) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            }
+            callback(null, category);
+        });
+};
+
+//get category after specified date
+// deepPopulate plugin is used to not put very long `populate`, which it uses intenally
+exports.getAllAfterDate = (date, callback) => {
+    let afterDate = new Date(date);
+    Category.find({ "createdAt": { $gt: afterDate } })
+        .deepPopulate([
+            'subCategories',
+            'subCategories.subCategories',
+            'subCategories.subCategories.subCategories',
+            'subCategories.subCategories.subCategories.subCategories',
+            'posts',
+            'subCategories.posts',
+            'subCategories.subCategories.posts',
+            'subCategories.subCategories.subCategories.posts',
+            'subCategories.subCategories.subCategories.subCategories.posts',
+        ])
+        .exec(function (err, category) {
+            if (err) {
+                console.log(err);
                 return callback(err);
             }
             callback(null, category);

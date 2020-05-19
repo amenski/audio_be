@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const { mongoose } = require('../config');
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 const Schema = mongoose.Schema;
 
 const categorySchema = new Schema({
@@ -12,5 +13,7 @@ const categorySchema = new Schema({
     createdAt: Date,
     modifiedAt: { type: Date, default: Date.now() }
 }, {versionKey: false});
+
+categorySchema.plugin(deepPopulate); //register plugin
 
 module.exports = mongoose.model('Category', categorySchema);
