@@ -40,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Parent test\",\n    \"description\": \"Parent test\",\n    \"thumbUrl\": \"\"\n}",
+					"raw": "{\n    \"title\": \"Parent version test2\",\n    \"description\": \"Parent version test\",\n    \"thumbUrl\": \"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -125,7 +125,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:4000/api/category/all/parents",
+					"raw": "localhost:4000/api/category/all/",
 					"host": [
 						"localhost"
 					],
@@ -134,7 +134,7 @@
 						"api",
 						"category",
 						"all",
-						"parents"
+						""
 					]
 				}
 			},
@@ -162,6 +162,53 @@
 							"key": "date",
 							"value": "2020-05-18"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Get all Posts After Date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/post/all/:date",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"post",
+						"all",
+						":date"
+					],
+					"variable": [
+						{
+							"key": "date",
+							"value": "2020-05-21"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Get Last version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/version/last-version",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"version",
+						"last-version"
 					]
 				}
 			},

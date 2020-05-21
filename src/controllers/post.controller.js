@@ -67,3 +67,21 @@ exports.upload = (req, res) => {
         res.status(201).send(data);
     });
 };
+
+// GET - /post/:date - Get all posts after a date
+exports.getAllAfterDate = (req, res) => {
+    let date = req.params.date;
+    console.log(date);
+    if(!date) {
+        res.status(400).send({message: "Date can not be empty."});
+    }
+
+    PostRepository.getAllAfterDate(date, function (err, data) {
+        if (err) {
+            res.status(500);
+            res.send({ message: err || 'Unable to fetch data.' });
+            return;
+        }
+        res.status(200).json(data);
+    });
+};

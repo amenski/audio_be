@@ -4,7 +4,8 @@ const upload = require('../config').fileUpload;
 const postController = require('../controllers/post.controller');
 
 router.get('/:id', postController.get);
-router.post('/create', postController.create);
+router.get('/all/:date', postController.getAllAfterDate);
 router.post('/:id', upload.single('audio'),postController.upload);
+router.post('/create', postController.create);
 
 module.exports = router;

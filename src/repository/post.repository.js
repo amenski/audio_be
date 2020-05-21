@@ -86,6 +86,16 @@ exports.upload = (data, callback) => {
     });
 };
 
+//get posts after specified date
+exports.getAllAfterDate = (date, callback) => {
+    let afterDate = new Date(date);
+    Post.find({ "createdAt": { $gt: afterDate } })
+        .exec(function (err, category) {
+            if(err) return callbackIfWithError(err, callback, 'Unable to get data After date' + date);
+            callback(null, category);
+        });
+};
+
 function buildFileName(body) {
     return body.title + ' ' + body.originalName + '.mp3';
 }
