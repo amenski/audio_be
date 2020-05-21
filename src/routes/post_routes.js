@@ -5,7 +5,7 @@ const postController = require('../controllers/post.controller');
 
 router.get('/:id', postController.get);
 router.get('/all/:date', postController.getAllAfterDate);
-router.post('/:id', upload.single('audio'),postController.upload);
 router.post('/create', postController.create);
+router.post('/:id', upload.single('audio'),postController.upload);
 
 module.exports = router;

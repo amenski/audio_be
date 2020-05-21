@@ -1,4 +1,5 @@
 const { mongoose } = require('../config');
+const Constants = require('../config/constants');
 const Category = require('../models/category.model');
 const Version = require('../models/version.sync.model');
 const VersionRepository = require('../repository/version.sync.repository');
@@ -109,7 +110,8 @@ function updateVersion(callback, product) {
 
         let version = new Version({
             _id: mongoose.Types.ObjectId(),
-            version: versionNumber + 1
+            version: versionNumber + 1,
+            type: Constants.ENTITY_TYPE.category
         });
         version.save((err, verDoc) => {
             if (err) return callbackIfWithError(err, callback, 'Error saving version info.');

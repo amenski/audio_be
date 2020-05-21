@@ -43,6 +43,7 @@ exports.create = (data, callback) => {
                     let version = new Version({
                         _id: mongoose.Types.ObjectId(),
                         version: versionNumber + 1,
+                        type: Constants.ENTITY_TYPE.post
                     });
                      version.save((err, verDoc) => { if (err) return callbackIfWithError(err, callback, 'Error saving version info.'); });
                 });
