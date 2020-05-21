@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const Post = require('../models/post.model');
 const Constants = require('../config/constants');
 const Category = require('../models/category.model');
+const Version = require('../models/version.sync.model');
+const VersionRepository = require('../repository/version.sync.repository');
 
 exports.create = (data, callback) => {
     const today = new Date().toUTCString();
@@ -24,10 +26,8 @@ exports.create = (data, callback) => {
 
         if (data.categoryId) {
             Category.findById({ _id: data.categoryId }, (err, doc) => {
-                if (err) {
-                    console.log('Error getting Category: ' + data.categoryId);
-                    return callback(err);
-                }
+                if(err) return callbackIfWithError(err, callback, 'Error getting Category: ' + data.categoryId);
+                
                 //if category has subCategory, dont save
                 if(doc.subCategories.length > 0) {
                     const message = 'Can\'t save post and subCategories together';
@@ -36,11 +36,22 @@ exports.create = (data, callback) => {
                 }
                 doc.posts.push(post._id);
                 doc.save((err, document) => { if (err) { callback(err); return; } });
+
+                 //version update
+                 VersionRepository.getLastVersion((err, versionNumber) => {
+                     if(err) return callbackIfWithError(err, callback, 'Unable to save data.');
+                    let version = new Version({
+                        _id: mongoose.Types.ObjectId(),
+                        version: versionNumber + 1,
+                    });
+                     version.save((err, verDoc) => { if (err) return callbackIfWithError(err, callback, 'Error saving version info.'); });
+                });
+
                 console.log('Post saved successfully.');
                 callback(null, postData);
             });
         } else {
-            console.log('Post Category empty.')
+            console.log('Post Category empty.');
             callback({ message: 'Post Category empty.' });
         }
     });
@@ -49,20 +60,15 @@ exports.create = (data, callback) => {
 //get post by id
 exports.get = (id, callback) => {
     Post.findById({ _id: id }, function (err, document) {
-        if (err) {
-            console.log(err || 'Unable to fetch data.');
-            return callback(err);
-        }
+        if(err) return callbackIfWithError(err, callback, 'Unable to fetch data.');
         callback(null, document);
     });
 };
 
 exports.upload = (data, callback) => {
     Post.findById({_id: data.id}, function(err, doc) {
-        if(err) {
-            console.log(err || 'Post not found.');
-            return callback(err);
-        }
+        if(err) return callbackIfWithError(err, callback, 'Post not found.');
+        
         //update or send back an error
         doc.url = buildFileName({title: doc.title, originalName: data.file.originalname});
         doc.save((err, prod) => {
@@ -71,9 +77,8 @@ exports.upload = (data, callback) => {
             }
             //process file before exit
             fs.writeFile(Constants.UPLOAD_FOLDER + prod.url, data.file.buffer, (err) => {
-                if(err) {
-                    return callback(err);
-                }
+                if(err) return callbackIfWithError(err, callback,'');
+
                 //success
                 callback(null, {message: 'Post updated.'});
             });
@@ -83,4 +88,9 @@ exports.upload = (data, callback) => {
 
 function buildFileName(body) {
     return body.title + ' ' + body.originalName + '.mp3';
+}
+
+function callbackIfWithError(err, callback, msg) {
+    console.log(msg || err);
+    return callback(err);
 }
