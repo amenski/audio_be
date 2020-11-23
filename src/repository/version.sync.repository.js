@@ -12,7 +12,9 @@ exports.get = (id, callback) => {
 exports.getLastVersion = (callback) => {
     VersionSync.find({}, function (err, docsList) {
         if(err) return callbackIfWithError(err, callback, 'Unable to fetch data.');
-        const versions = docsList.map(val => val.version); 
+        let versions = docsList.map(val => val.version);
+        //first time starting, version=0
+        if(versions.length < 1)  versions = [0]; 
         callback(null, Math.max(...versions));
     });
 };

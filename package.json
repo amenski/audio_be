@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "about": "THIS IS COMMENT: I used npx not to install nodemon globally",
+    "start": "npx nodemon index.js", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
