@@ -46,9 +46,9 @@ exports.get = (req, res) => {
     });
 };
 
-// GET - /category - Get all parent categories
-exports.getAllParents = (req, res) => {
-    CategoryRepository.getAllPrents(function (err, data) {
+// GET - /category - Get all categories and their children
+exports.getAll = (req, res) => {
+    CategoryRepository.getAll(function (err, data) {
         if (err) {
             res.status(500);
             res.send({ message: err || 'Unable to fetch data.' });
