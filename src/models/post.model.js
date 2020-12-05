@@ -12,7 +12,7 @@ const postSchema = new Schema({
     isOpened: { type: Boolean, default: false },
     categoryId: { type: Schema.Types.ObjectId },
     createdAt: Date,
-    modifiedAt: { type: Date, default: Date.now() }
+    modifiedAt: { type: Date, default: new Date().toUTCString() }
 }, { versionKey: false });
 
 module.exports = mongoose.model('Post', postSchema);
