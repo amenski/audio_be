@@ -43,6 +43,7 @@ exports.create = (data, callback) => {
                     let version = new Version({
                         _id: mongoose.Types.ObjectId(),
                         version: versionNumber + 1,
+                        object_id: post._id,
                         type: Constants.ENTITY_TYPE.post
                     });
                      version.save((err, verDoc) => { if (err) return callbackIfWithError(err, callback, 'Error saving version info.'); });
@@ -62,6 +63,7 @@ exports.create = (data, callback) => {
 exports.get = (id, callback) => {
     Post.findById({ _id: id }, function (err, document) {
         if(err) return callbackIfWithError(err, callback, 'Unable to fetch data.');
+        if(document == null) document = {};
         callback(null, document);
     });
 };

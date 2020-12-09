@@ -37,7 +37,7 @@ exports.get = (req, res) => {
             res.send({ message: 'Unable to fetch data.' });
             return;
         }
-        res.status(201).json(data);
+        res.status(200).json(data);
     });
 };
 
