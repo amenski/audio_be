@@ -23,9 +23,8 @@
 					],
 					"variable": [
 						{
-							"id": "94c7d6a3-b6f5-4859-a78c-2f6766b9bf50",
 							"key": "id",
-							"value": "5ebd72d338f31220f8ca00ef",
+							"value": "5fd157db6b08bd1f808a9b25",
 							"type": "string"
 						}
 					]
@@ -40,7 +39,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Parent version test2\",\n    \"description\": \"Parent version test\",\n    \"thumbUrl\": \"\"\n}",
+					"raw": "{\n    \"title\": \"Trial with post child\",\n    \"description\": \"Parent version test\",\n    \"thumbUrl\": \"\",\n    \"parentCategoryId\": \"5fd260f86b08bd1f808a9b2f\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -80,9 +79,8 @@
 					],
 					"variable": [
 						{
-							"id": "640090f1-1dd9-4ad4-8416-f7097d7359ed",
 							"key": "id",
-							"value": "5ebd383d9316d921b0cc55ab",
+							"value": "5fd260f86b08bd1f808a9b2f",
 							"type": "string"
 						}
 					]
@@ -97,7 +95,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"categoryId\": \"5ec3fa0d54fc4a290c793ce8\",\n    \"title\": \"Chapter 1\",\n    \"url\": \"data.url\"\n}",
+					"raw": "{\n    \"categoryId\": \"5fd261796b08bd1f808a9b31\",\n    \"title\": \"Chapter 1\",\n    \"url\": \"data.url\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -160,7 +158,8 @@
 					"variable": [
 						{
 							"key": "date",
-							"value": "2020-05-18"
+							"value": "2020-05-18",
+							"type": "string"
 						}
 					]
 				}
@@ -187,7 +186,8 @@
 					"variable": [
 						{
 							"key": "date",
-							"value": "2020-05-21"
+							"value": "2020-05-21",
+							"type": "string"
 						}
 					]
 				}
@@ -209,6 +209,32 @@
 						"api",
 						"version",
 						"last-version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Get version byId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/version/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"version",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "7"
+						}
 					]
 				}
 			},
