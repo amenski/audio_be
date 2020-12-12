@@ -26,7 +26,7 @@ exports.create = (data, callback) => {
                 if(err) return callbackIfWithError(err, callback, 'Unable to save.');
                 //if category has posts, dont save
                 if(catObj.posts.length > 0) {
-                    return callbackIfWithError(err, callback, 'Can\'t save post and subCategories together');
+                    return callbackIfWithError(err, callback, 'Can\'t save post and subCategories, category can have only one of the two.');
                 }
 
                 catObj.subCategories.push(product._id);
@@ -110,6 +110,7 @@ function updateVersion(callback, product) {
 
         let version = new Version({
             _id: mongoose.Types.ObjectId(),
+            object_id: product._id,
             version: versionNumber + 1,
             type: Constants.ENTITY_TYPE.category
         });

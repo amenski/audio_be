@@ -1,10 +1,10 @@
 const VersionRepository = require('../repository/version.sync.repository');
 
 exports.get = (req, res) => {
-    const id = req.params.id;
-    if (!id) return res.status(400).send({ message: "Version id can not be empty." });
+    const version = req.params.version;
+    if (!version) return res.status(400).send({ message: "Version id can not be empty." });
 
-    VersionRepository.get(id, function (err, data) {
+    VersionRepository.get(version, function (err, data) {
         if (err) {
             res.status(500);
             res.send({ message: 'Unable to fetch data.' });

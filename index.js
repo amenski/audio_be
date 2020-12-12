@@ -9,9 +9,15 @@ const routes = require('./src/routes');
 
 
 //read post body
+app.use(config.logger('custom', { stream: config.accessLogStream }));
+app.use(config.apiRateLimiter);
+// check if valid UUID is recieved and set it to response.
+// Validation: the timestamp should only be of today
+app.use(config.responseEnhance);
+
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
-app.use(config.morgan('dev'));
+
 
 
 //register all routes
