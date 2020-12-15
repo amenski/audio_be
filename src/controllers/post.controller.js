@@ -4,7 +4,7 @@ const FileUpload = require('../config').fileUpload;
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.title || !req.body.url || !req.body.categoryId) {
-        res.status(400).send({
+        res.status(400).json({
             message: "Invalid input, please try again!"
         });
         return;
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     PostRepository.create(post, function (err, post) {
         if (err) {
             res.status(500);
-            res.send({ message: 'Unable to save.' });
+            res.json({ message: 'Unable to save.' });
             return;
         }
         res.status(201).json({ postId: post._id });
@@ -29,12 +29,12 @@ exports.create = (req, res) => {
 
 exports.get = (req, res) => {
     const id = req.params.id;
-    if (!id) return res.status(400).send({ message: "Post id can not be empty." });
+    if (!id) return res.status(400).json({ message: "Post id can not be empty." });
 
     PostRepository.get(id, function (err, data) {
         if (err) {
             res.status(500);
-            res.send({ message: 'Unable to fetch data.' });
+            res.json({ message: 'Unable to fetch data.' });
             return;
         }
         res.status(200).json(data);
@@ -48,10 +48,10 @@ exports.upload = (req, res) => {
     console.log(file);
     if (!file) {
         res.status(400);
-        res.send({ message: 'Please upload a file' });
+        res.json({ message: 'Please upload a file' });
         return;
     }
-    if (!id) return res.status(400).send({ message: "Post id can not be empty." });
+    if (!id) return res.status(400).json({ message: "Post id can not be empty." });
 
     const data = {
         id: id,
@@ -61,10 +61,10 @@ exports.upload = (req, res) => {
     PostRepository.upload(data, function (err, data) {
         if (err) {
             res.status(500);
-            res.send({ message: err || 'Unable to upload.' });
+            res.json({ message: err || 'Unable to upload.' });
             return;
         }
-        res.status(201).send(data);
+        res.status(201).json(data);
     });
 };
 
@@ -73,13 +73,13 @@ exports.getAllAfterDate = (req, res) => {
     let date = req.params.date;
     console.log(date);
     if(!date) {
-        res.status(400).send({message: "Date can not be empty."});
+        res.status(400).json({message: "Date can not be empty."});
     }
 
     PostRepository.getAllAfterDate(date, function (err, data) {
         if (err) {
             res.status(500);
-            res.send({ message: err || 'Unable to fetch data.' });
+            res.json({ message: err || 'Unable to fetch data.' });
             return;
         }
         res.status(200).json(data);

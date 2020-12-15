@@ -4,7 +4,7 @@ const CategoryRepository = require('../repository/category.repository');
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.title) {
-        res.status(400).send({
+        res.status(400).json({
             message: "Invalid input, title can not be empty!"
         });
         return;
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
     CategoryRepository.create(cat, function (err, cat) {
         if (err) {
             res.status(500);
-            res.send({ message: 'Unable to save.' });
+            res.json({ message: 'Unable to save.' });
             return;
         }
         res.status(201).json({ categoryId: cat._id });
@@ -31,7 +31,7 @@ exports.create = (req, res) => {
 exports.get = (req, res) => {
     const id = req.params.id;
     if (!id) {
-        res.status(400).send({
+        res.status(400).json({
             message: "Id can not be empty."
         });
     }
@@ -39,7 +39,7 @@ exports.get = (req, res) => {
     CategoryRepository.get(id, function (err, data) {
         if (err) {
             res.status(500);
-            res.send({ message: err || 'Unable to fetch data.' });
+            res.json({ message: err || 'Unable to fetch data.' });
             return;
         }
         res.status(200).json(data);
@@ -51,7 +51,7 @@ exports.getAll = (req, res) => {
     CategoryRepository.getAll(function (err, data) {
         if (err) {
             res.status(500);
-            res.send({ message: err || 'Unable to fetch data.' });
+            res.json({ message: err || 'Unable to fetch data.' });
             return;
         }
         res.status(200).json(data);
@@ -63,13 +63,13 @@ exports.getAllAfterDate = (req, res) => {
     let date = req.params.date;
     console.log(date);
     if(!date) {
-        res.status(400).send({message: "Date can not be empty."});
+        res.status(400).json({message: "Date can not be empty."});
     }
 
     CategoryRepository.getAllAfterDate(date, function (err, data) {
         if (err) {
             res.status(500);
-            res.send({ message: err || 'Unable to fetch data.' });
+            res.json({ message: err || 'Unable to fetch data.' });
             return;
         }
         res.status(200).json(data);

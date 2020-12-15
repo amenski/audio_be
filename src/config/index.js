@@ -1,9 +1,9 @@
 const path = require('path');
 const uuid = require('uuid');
 const multer = require('multer');
-const morgan = require('morgan');
 const uuidTime = require('uuid-time');
 const mongoose = require('mongoose');
+const morganBody = require('morgan-body');
 const rfs = require('rotating-file-stream'); 
 const rateLimit = require("express-rate-limit");
 
@@ -38,8 +38,8 @@ const accessLogStream = rfs.createStream('access.log', {
 
 //morgan custom token config
 // transaction-id is UUID from client
-morgan.token('custom', ":date[iso] | 0.0.1 | :req[transaction-id] | :url | :method | :status | ")
-
+// TODO add req and res body to the log
+// morgan.token("custom", ":date[iso] | 0.0.1 | :req[transaction-id] | :url | :method | :status");
 
 // Rate limiting for all requests, in memory store:  for 12hr
 const apiRateLimiter = rateLimit({
@@ -53,20 +53,20 @@ const responseEnhance = (req, resp, next) => {
   
   let validV1 = uuid.validate(tx) && uuid.version(tx) === 1;
   if(!validV1) {
-    resp.status(400);
-    resp.send();
-    return;
+    const data = {
+      "message": "Invalid transaction id found."
+    }
+    return resp.status(400).json(data);
   } else {
     // TODO validate the Date is today
   }
-  resp.set("transaction-id", uuidTime.v1(tx));
+  resp.setHeader("transaction-id", uuidTime.v1(tx));
   next();
 }
 
 module.exports = {
-  connection: db,
   fileUpload: upload,
-  logger: morgan,
+  logger: morganBody,
   mongoose: mongoose,
   responseEnhance: responseEnhance,
   accessLogStream: accessLogStream,

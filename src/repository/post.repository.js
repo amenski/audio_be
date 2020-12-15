@@ -20,7 +20,7 @@ exports.create = (data, callback) => {
 
     post.save((err, postData) => {
         if (err) {
-            console.log(err || 'Unable to save post.');
+            console.log("post.repository.create()" + err || 'Unable to save post.');
             return callback(err);
         }
 
@@ -31,7 +31,7 @@ exports.create = (data, callback) => {
                 //if category has subCategory, dont save
                 if(doc.subCategories.length > 0) {
                     const message = 'Can\'t save post and subCategories together';
-                    console.log(message);
+                    console.log("post.repository.create()" + message);
                     return callback(message);
                 }
                 doc.posts.push(post._id);
@@ -49,11 +49,11 @@ exports.create = (data, callback) => {
                      version.save((err, verDoc) => { if (err) return callbackIfWithError(err, callback, 'Error saving version info.'); });
                 });
 
-                console.log('Post saved successfully.');
+                console.log("post.repository.create()" + 'Post saved successfully.');
                 callback(null, postData);
             });
         } else {
-            console.log('Post Category empty.');
+            console.log("post.repository.create()" + 'Post Category empty.');
             callback({ message: 'Post Category empty.' });
         }
     });
@@ -104,6 +104,6 @@ function buildFileName(body) {
 }
 
 function callbackIfWithError(err, callback, msg) {
-    console.log(msg || err);
+    console.log("callbackIfWithError()" + msg || err);
     return callback(err);
 }

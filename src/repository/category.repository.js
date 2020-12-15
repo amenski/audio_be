@@ -116,13 +116,13 @@ function updateVersion(callback, product) {
         });
         version.save((err, verDoc) => {
             if (err) return callbackIfWithError(err, callback, 'Error saving version info.');
-            console.log('Category saved successfully.');
+            console.log("category.repository()" + 'Category saved successfully.');
             callback(null, product);
         });
     });
 }
 
 function callbackIfWithError(err, callback, msg) {
-    console.log(msg);
+    console.log("callbackIfWithError()" + msg);
     return callback(err);
 }
