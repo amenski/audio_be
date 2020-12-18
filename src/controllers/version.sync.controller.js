@@ -16,7 +16,12 @@ exports.get = (req, res) => {
 
 //GET - Latest version
 exports.getLastVersion = (req, res) => {
-    VersionRepository.getLastVersion(function (err, data) {
+    const version = req.query.currentVersion;
+    if (isNaN(version) || version < 0) {
+        return res.status(400).json({ message: "Invalid Version id specified." });
+    }
+
+    VersionRepository.getLastVersion(parseInt(version), function (err, data) {
         if (err) {
             res.status(500);
             res.json({ message: 'Unable to fetch data.' });

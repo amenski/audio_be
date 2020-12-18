@@ -44,7 +44,7 @@ const accessLogStream = rfs.createStream('access.log', {
 // Rate limiting for all requests, in memory store:  for 12hr
 const apiRateLimiter = rateLimit({
   windowMs: 12 * 60 * 60 * 1000, // 12hr
-  max: 5 // 5 max calls a day
+  max: 50 // 5 max calls a day
 });
 
 // Enhance response with UUID recieved (if valid)
