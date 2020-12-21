@@ -4,6 +4,7 @@ const Category = require('../models/category.model');
 const Version = require('../models/version.sync.model');
 const VersionRepository = require('../repository/version.sync.repository');
 
+//TODO make it transactional, currently it saves Category while there is a problem updating version
 exports.create = (data, callback) => {
     const today = new Date().toUTCString();
     const category = new Category({
@@ -32,11 +33,11 @@ exports.create = (data, callback) => {
                 catObj.subCategories.push(product._id);
                 catObj.save((err, doc) => { if (err) { callback(err); return; } });
                 //version update
-                updateVersion(callback, product);
+                updateVersion(product, callback);
             });
         } else {
             //version update
-            updateVersion(callback, product);
+            updateVersion(product, callback);
         }
     });
 };
@@ -103,26 +104,26 @@ exports.getAllAfterDate = (date, callback) => {
         });
 };
 
-function updateVersion(callback, product) {
-    //version update
-    VersionRepository.getLastVersion((err, versionNumber) => {
+function updateVersion(product, callback) {
+    //version update, send -100 and get the highest version
+    VersionRepository.getLastVersion(-100, (err, data) => {
         if (err) return callbackIfWithError(err, callback, 'Unable to get version info.');
 
         let version = new Version({
             _id: mongoose.Types.ObjectId(),
             object_id: product._id,
-            version: versionNumber + 1,
+            version: data["nextVersion"],
             type: Constants.ENTITY_TYPE.category
         });
         version.save((err, verDoc) => {
             if (err) return callbackIfWithError(err, callback, 'Error saving version info.');
-            console.log("category.repository()" + 'Category saved successfully.');
+            console.log("category.repository(): " + 'Category saved successfully.');
             callback(null, product);
         });
     });
 }
 
 function callbackIfWithError(err, callback, msg) {
-    console.log("callbackIfWithError()" + msg);
+    console.log("callbackIfWithError(): " + msg +" "+ err);
     return callback(err);
 }

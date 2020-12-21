@@ -21,7 +21,7 @@ exports.getLastVersion = (req, res) => {
         return res.status(400).json({ message: "Invalid Version id specified." });
     }
 
-    VersionRepository.getLastVersion(parseInt(version), function (err, data) {
+    VersionRepository.getLastVersion(version, function (err, data) {
         if (err) {
             res.status(500);
             res.json({ message: 'Unable to fetch data.' });
